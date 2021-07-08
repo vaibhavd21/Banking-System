@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}
+Info & Transfer | Urban Roots Bank
+{% endblock title %}
+{% block content %}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="container pt-5">
+    <div class="col-lg-5 shadow-lg mx-auto p-0 mt-3">
+        <div class="card border-info mb-3" style="align-self: auto;">
+            <div class="card-header">
+                <h3 style="text-align: center;"><b><i>Customer Information</i></b></h3>
+            </div>
+            <div class="card-body">
+                {% for cust in customer %}
+                <h6 style="text-align: center;">Ac. No. <b>{{cust.id}}</b></h6>
+                <hr>
+                <h6 style="text-align: center;">Name : {{cust.name}}</h6>
+                <hr>
+                <h6 style="text-align: center;">Balance : Rs.{{ cust.balance }}</h6>
+                <hr>
+                <h6 style="text-align: center;">Email : {{ cust.email }}</h6>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5 shadow-lg mx-auto pt-3 mt-5 pb-2">
+        <div class="border-1 mb-md-2">
+            <div class="card border-info mb-3" style="align-self: auto;">
+                <div class="card-header"
+                    style="text-align: center;background: radial-gradient(rgb(11, 238, 30),#14a007);">
+                    <h3 style="text-align: center;">
+                        <b><i>Transfer Money</i></b>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/custinfo/{{cur_cust_id}}">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="AccountNum">To Account Number</span>
+                            <input type="number" class="form-control" placeholder="Recipient's Account Number Here"
+                                aria-label="AccountNum" aria-describedby="AccountNum" name="AccountNum" id="AccountNum"
+                                required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Recipient's Name" id="RName"
+                                name="RName" aria-label="Recipient's username" aria-describedby="basic-addon2">
+
+                        </div>
+
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">₹</span>
+                            <input type="number" class="form-control" aria-label="Amount" name="Amount" id="Amount"
+                                aria-describedby="Amount" placeholder="Amount" required>
+                            <span class="input-group-text">.00</span>
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-outline-success" style="margin-left: 67%;">Confirm
+                            Payment</button>
+
+
+                        {% if invalid_account_num %}
+                        <script>
+                            swal({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: "Receiver's Account Number Doesn't Exist In Database.",
+
+                            });
+                        </script>
+                        {% endif %}
+
+                        {% if invamnt %}
+                        <script>
+                            swal({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Less Than Zero Amount 😜',
+
+                            });
+                        </script>
+                        {% endif %}
+
+
+                        {% if lessthanzero %}
+                        <script>
+                            swal({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: "You don't have sufficient balance to make transaction!",
+
+                            });
+                        </script>
+                        {% endif %}
+
+                        {% if successful %}
+                        <script>
+                            swal({
+                                icon: 'success',
+                                title: 'Transaction successful!'
+                            });
+                        </script>
+                        {% endif %}
+
+
+                        <script>
+                            if (window.history.replaceState) {
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                        </script>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

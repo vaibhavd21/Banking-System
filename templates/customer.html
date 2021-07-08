@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}
+Customers | Urban Roots Bank
+{% endblock title %}
+{% block content %}
+<h1 class="my-2" style="text-align: center;"><b><i>Customers</i></b></h1>
+<div style="margin: 20px; overflow-x: auto;">
+    <table class="table table-primary table-bordered table-hover table-striped">
+
+        <tr style="text-align: center;">
+            <th>Account</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Balance</th>
+            <th>Details</th>
+        </tr>
+
+        {% for i in custs %}
+        <tr style="text-align: center;">
+            <td>{{ i.id }}</td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.email }}</td>
+            <td>
+                <h6>&#8377 {{i.balance}}</h6>
+            </td>
+            <td><a href="/custinfo/{{ i.id }}"><button type="button" class="btn btn-outline-primary btn-sm">View
+                        Customer</button></a></td>
+
+        </tr>
+
+
+
+        {% endfor %}
+
+    </table>
+</div>
+
+
+{% endblock content %}
