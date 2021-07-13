@@ -9,12 +9,14 @@ for i in allcust:
     allids.append(int(i.id))
 # Create your views here.
 def home(request):
-    return render(request,'index.html')
+    if request.method == 'GET':
+        return render(request,'index.html')
 
 def customers(request):
-    cust=Customer.objects.all()
-    #print(cust)
-    return render(request,'customer.html',{'custs':cust})
+    if request.method == 'GET':
+        cust=Customer.objects.all()
+        #print(cust)
+        return render(request,'customer.html',{'custs':cust})
 
 def custinfo(request,id):
     global allids
@@ -64,5 +66,6 @@ def custinfo(request,id):
             
             
 def transaction(request):
-    all_transactions = History.objects.filter().order_by('-time')
-    return render(request, 'transaction.html',{'data':all_transactions})
+    if request.method == 'GET':
+        all_transactions = History.objects.filter().order_by('-time')
+        return render(request, 'transaction.html',{'data':all_transactions})
