@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}
+Transaction History | Urban Roots Bank
+{% endblock title %}
+{% block content %}
+<h1 class="my-2" style="text-align: center;"><b><i>Transaction History</i></b></h1>
+<div style="margin: 20px; overflow-x: auto;">
+    <table class="table table-primary table-bordered table-hover table-striped">
+
+        <tr style="text-align: center;">
+            <th>From Account</th>
+            <th>Sender Name</th>
+            <th>To Account</th>
+            <th>Receiver Name</th>
+            <th>Amount</th>
+            <th>Time</th>
+        </tr>
+
+        {% for i in data %}
+        <tr style="text-align: center;">
+            <td>{{ i.sender }}</td>
+            <td>{{ i.sender_name }}</td>
+            <td>{{ i.rec }}</td>
+            <td>{{ i.rec_name }}</td>
+            <td>
+                <h6>&#8377 {{i.amount}}</h6>
+            </td>
+            <td>{{ i.time }}</td>
+        </tr>
+
+
+
+        {% endfor %}
+
+    </table>
+</div>
+
+
+{% endblock content %}
